@@ -1,7 +1,6 @@
 import './App.css';
 import {
   FormControl,
-  Stack,
   Slider,
   Box,
   FormLabel,
@@ -10,7 +9,10 @@ import {
   Radio,
   Button,
 } from '@mui/material';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { selectHappyCount } from './features/happyCounter/happyCounterSlice';
 
 const questionsData = [
   {
@@ -36,12 +38,22 @@ const questionsData = [
 ];
 
 function App() {
+  const happyCount = useSelector(selectHappyCount);
+  const dispatch = useDispatch();
+
   const [questions, setQuestions] = useState(questionsData);
   const [question, setQuestion] = useState(-1);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [insideH, setInsideH] = useState(5);
+  const [outsideH, setOutsideH] = useState(5);
 
   const handleOptionChange = (changeEvent) => {
     setSelectedOption(changeEvent.target.value);
+  };
+
+  const handleChange = (event, newValue) => {
+    setInsideH(newValue);
+    setOutsideH(10 - newValue);
   };
 
   const handleFormSubmit = (e) => {
@@ -89,6 +101,13 @@ function App() {
       4) *
     100;
 
+  const insideHOnly =
+    (questions[1].result + questions[2].result + questions[3].result) / 3;
+  const outsideHOnly = questions[0].result / 1;
+  const newResult = Math.round(
+    ((insideH / 10) * insideHOnly + (outsideH / 10) * outsideHOnly) * 100
+  );
+
   return question === 4 ? (
     <div
       style={{
@@ -99,7 +118,7 @@ function App() {
         alignItems: 'center',
       }}
     >
-      <h1>You are {result} % happy</h1>
+      <h1>You are {newResult} % happy</h1>
       <Button variant="outlined" onClick={refreshQuiz}>
         Try again
       </Button>
@@ -134,13 +153,19 @@ function App() {
               padding: 10,
             }}
           >
-            My clousest
+            My inner world
+            <p>{insideH}</p>
           </div>
           <Slider
-            defaultValue={50}
-            aria-label="Default"
-            valueLabelDisplay="auto"
+            defaultValue={5}
+            // aria-label="Default"
+            // valueLabelDisplay="auto"
             sx={{ width: '50%' }}
+            value={insideH}
+            onChange={handleChange}
+            marks
+            min={0}
+            max={10}
           />
           <div
             style={{
@@ -148,13 +173,15 @@ function App() {
               padding: 10,
             }}
           >
-            My inner world
+            My clousest
+            <p>{outsideH}</p>
           </div>
         </Box>
         <Button variant="outlined" onClick={handleFormSubmit}>
           Next question
         </Button>
       </Box>
+      <h2>{happyCount[0].id}</h2>
     </div>
   ) : (
     <QuestionForm
@@ -175,6 +202,8 @@ function QuestionForm(props) {
     question,
     selectedOption,
   } = props;
+
+  const happyCount = useSelector(selectHappyCount);
 
   return (
     <div className="">
@@ -199,14 +228,14 @@ function QuestionForm(props) {
           >
             <FormControlLabel
               value="1"
-              control={<Radio size="large" />}
+              control={<Radio size="medium" />}
               label="Yes"
               onChange={handleOptionChange}
               checked={selectedOption === '1'}
             />
             <FormControlLabel
               value="0"
-              control={<Radio size="large" />}
+              control={<Radio size="medium" />}
               label="No"
               onChange={handleOptionChange}
               checked={selectedOption === '0'}
@@ -222,36 +251,3 @@ function QuestionForm(props) {
 }
 
 export default App;
-
-// <form onSubmit={handleFormSubmit}>
-// <h2>{questions[question].text}</h2>
-// <div className="form-check">
-//   <label>
-//     <input
-//       type="radio"
-//       name="point"
-//       checked={selectedOption === '0'}
-//       value="0"
-//       onChange={handleOptionChange}
-//     />
-//     No
-//   </label>
-// </div>
-// <div className="form-check">
-//   <label>
-//     <input
-//       type="radio"
-//       name="point"
-//       checked={selectedOption === '1'}
-//       value="1"
-//       onChange={handleOptionChange}
-//     />
-//     Yes
-//   </label>
-// </div>
-// <div className="form-group">
-//   <button className="" type="submit">
-//     Submit
-//   </button>
-// </div>
-// </form>
