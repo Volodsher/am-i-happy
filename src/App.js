@@ -1,16 +1,16 @@
-import './App.css';
-import {
-  FormControl,
-  Stack,
-  Slider,
-  Box,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-} from '@mui/material';
-import { useState, useEffect, useLayoutEffect } from 'react';
+// import './App.css';
+// import {
+//   FormControl,
+//   Stack,
+//   Slider,
+//   Box,
+//   FormLabel,
+//   RadioGroup,
+//   FormControlLabel,
+//   Radio,
+//   Button,
+// } from '@mui/material';
+// import { useState, useEffect, useLayoutEffect } from 'react';
 
 const questionsData = [
   {
