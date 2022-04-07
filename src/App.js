@@ -1,16 +1,18 @@
-// import './App.css';
-// import {
-//   FormControl,
-//   Stack,
-//   Slider,
-//   Box,
-//   FormLabel,
-//   RadioGroup,
-//   FormControlLabel,
-//   Radio,
-//   Button,
-// } from '@mui/material';
-// import { useState, useEffect, useLayoutEffect } from 'react';
+import './App.css';
+import {
+  FormControl,
+  Slider,
+  Box,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Button,
+} from '@mui/material';
+import { useState } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { selectHappyData } from './app/features/happyCounter/happyCounterSlice';
 
 const questionsData = [
   {
@@ -36,13 +38,15 @@ const questionsData = [
 ];
 
 function App() {
+  const happyData = useSelector(selectHappyData);
+
   const [questions, setQuestions] = useState(questionsData);
   const [question, setQuestion] = useState(-1);
   const [selectedOption, setSelectedOption] = useState(0);
 
-  const handleOptionChange = (changeEvent) => {
-    setSelectedOption(changeEvent.target.value);
-  };
+  // const handleOptionChange = (changeEvent) => {
+  //   setSelectedOption(changeEvent.target.value);
+  // };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -160,21 +164,19 @@ function App() {
     <QuestionForm
       handleFormSubmit={handleFormSubmit}
       questions={questions}
-      handleOptionChange={handleOptionChange}
       question={question}
-      selectedOption={selectedOption}
     />
   );
 }
 
 function QuestionForm(props) {
-  const {
-    handleFormSubmit,
-    questions,
-    handleOptionChange,
-    question,
-    selectedOption,
-  } = props;
+  const [selectOption, setSelectOption] = useState(0);
+  // const count = useSelector(selectCount);
+  // const dispatch = useDispatch();
+
+  // const option = useSelector(selectedOption);
+  // const happyData = useSelector(selectHappyData);
+  const { handleFormSubmit, questions, question } = props;
 
   return (
     <div className="">
@@ -190,7 +192,7 @@ function QuestionForm(props) {
           gap: '20px',
         }}
       >
-        <h2>{questions[question].text}</h2>
+        {/* <h2>{questions[question].text}</h2> */}
         <FormControl>
           <FormLabel id="label">Choose the answer</FormLabel>
           <RadioGroup
@@ -199,59 +201,33 @@ function QuestionForm(props) {
           >
             <FormControlLabel
               value="1"
-              control={<Radio size="large" />}
+              control={<Radio size="medium" />}
               label="Yes"
-              onChange={handleOptionChange}
-              checked={selectedOption === '1'}
+              onChange={(e) => setSelectOption(e.target.value)}
+              checked={selectOption === '1'}
             />
             <FormControlLabel
               value="0"
-              control={<Radio size="large" />}
+              control={<Radio size="medium" />}
               label="No"
-              onChange={handleOptionChange}
-              checked={selectedOption === '0'}
+              onChange={(e) => setSelectOption(e.target.value)}
+              checked={selectOption === '0'}
             />
           </RadioGroup>
         </FormControl>
-        <Button variant="outlined" onClick={handleFormSubmit}>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setSelectOption(0);
+            // changeResult(selectOption);
+          }}
+        >
           Next question
         </Button>
       </Box>
+      {/* <p>this is{option}</p> */}
     </div>
   );
 }
 
 export default App;
-
-// <form onSubmit={handleFormSubmit}>
-// <h2>{questions[question].text}</h2>
-// <div className="form-check">
-//   <label>
-//     <input
-//       type="radio"
-//       name="point"
-//       checked={selectedOption === '0'}
-//       value="0"
-//       onChange={handleOptionChange}
-//     />
-//     No
-//   </label>
-// </div>
-// <div className="form-check">
-//   <label>
-//     <input
-//       type="radio"
-//       name="point"
-//       checked={selectedOption === '1'}
-//       value="1"
-//       onChange={handleOptionChange}
-//     />
-//     Yes
-//   </label>
-// </div>
-// <div className="form-group">
-//   <button className="" type="submit">
-//     Submit
-//   </button>
-// </div>
-// </form>
