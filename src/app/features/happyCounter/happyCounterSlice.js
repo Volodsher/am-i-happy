@@ -28,12 +28,27 @@ export const happyCounterSlice = createSlice({
   initialState: {
     value: questionsData1,
     selectedOption: 0,
+    question: -1,
   },
-  reducers: {},
+  reducers: {
+    refreshQuiz: (state) => {
+      state.question === 4 ? (state.question = -1) : (state.question += 1);
+    },
+
+    changeResult: (state, action) => {
+      state.selectedOption = action.payload;
+      state.value[state.question].result = action.payload;
+      state.question += 1;
+    },
+  },
 });
 
 // export const { changeResult } = happyCounterSlice.actions;
 
+export const { changeResult, refreshQuiz } = happyCounterSlice.actions;
+
 export const selectHappyData = (state) => state.happyCounter.value;
+export const selectedQuestion = (state) => state.happyCounter.question;
+export const optionFromStore = (state) => state.happyCounter.selectedOption;
 
 export default happyCounterSlice.reducer;

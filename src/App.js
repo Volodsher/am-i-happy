@@ -12,7 +12,13 @@ import {
 import { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectHappyData } from './app/features/happyCounter/happyCounterSlice';
+import {
+  selectHappyData,
+  selectedQuestion,
+  optionFromStore,
+  changeResult,
+  refreshQuiz,
+} from './app/features/happyCounter/happyCounterSlice';
 
 const questionsData = [
   {
@@ -39,14 +45,10 @@ const questionsData = [
 
 function App() {
   const happyData = useSelector(selectHappyData);
-
+  const dispatch = useDispatch();
   const [questions, setQuestions] = useState(questionsData);
   const [question, setQuestion] = useState(-1);
   const [selectedOption, setSelectedOption] = useState(0);
-
-  // const handleOptionChange = (changeEvent) => {
-  //   setSelectedOption(changeEvent.target.value);
-  // };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -81,9 +83,9 @@ function App() {
     setQuestion(question + 1);
   };
 
-  const refreshQuiz = () => {
-    setQuestion(-1);
-  };
+  // const refreshQuiz = () => {
+  //   setQuestion(-1);
+  // };
 
   const result =
     ((questions[0].result +
@@ -93,140 +95,143 @@ function App() {
       4) *
     100;
 
-  return question === 4 ? (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <h1>You are {result} % happy</h1>
-      <Button variant="outlined" onClick={refreshQuiz}>
-        Try again
-      </Button>
-    </div>
-  ) : question === -1 ? (
-    <div className="App">
-      <header className="App-header">
-        <h1>Are you happy at this moment?</h1>
-      </header>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '30px',
-        }}
-      >
-        <h2>How your happiness deppends on?</h2>
-        <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '20px',
-          }}
-        >
+  const questionNumber = useSelector(selectedQuestion);
+
+  return (
+    <Box>
+      <div className="App">
+        <header className="App-header">
+          <h1>Are you happy at this moment?</h1>
+        </header>
+        <h4>{questionNumber}</h4>
+        {questionNumber === 4 ? (
           <div
             style={{
-              width: '10%',
-              padding: 10,
+              height: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            My clousest
+            <h1>You are {0} % happy</h1>
+            <Button variant="outlined" onClick={() => dispatch(refreshQuiz())}>
+              Try again
+            </Button>
           </div>
-          <Slider
-            defaultValue={50}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            sx={{ width: '50%' }}
+        ) : questionNumber === -1 ? (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '30px',
+            }}
+          >
+            <h2>How your happiness deppends on?</h2>
+            <Box
+              sx={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '20px',
+              }}
+            >
+              <div
+                style={{
+                  width: '10%',
+                  padding: 10,
+                }}
+              >
+                My clousest
+              </div>
+              <Slider
+                defaultValue={10}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                sx={{ width: '50%' }}
+              />
+              <div
+                style={{
+                  width: '10%',
+                  padding: 10,
+                }}
+              >
+                My inner world
+              </div>
+            </Box>
+            <Button variant="outlined" onClick={() => dispatch(refreshQuiz())}>
+              Next question
+            </Button>
+          </Box>
+        ) : (
+          <QuestionForm
+            handleFormSubmit={handleFormSubmit}
+            questions={questions}
+            question={question}
           />
-          <div
-            style={{
-              width: '10%',
-              padding: 10,
-            }}
-          >
-            My inner world
-          </div>
-        </Box>
-        <Button variant="outlined" onClick={handleFormSubmit}>
-          Next question
-        </Button>
-      </Box>
-    </div>
-  ) : (
-    <QuestionForm
-      handleFormSubmit={handleFormSubmit}
-      questions={questions}
-      question={question}
-    />
+        )}
+      </div>
+    </Box>
   );
 }
 
 function QuestionForm(props) {
+  const optionStore = useSelector(optionFromStore);
+  const selectHappyD = useSelector(selectHappyData);
+  const questionNumber = useSelector(selectedQuestion);
+  const dispatch = useDispatch();
   const [selectOption, setSelectOption] = useState(0);
-  // const count = useSelector(selectCount);
-  // const dispatch = useDispatch();
 
-  // const option = useSelector(selectedOption);
-  // const happyData = useSelector(selectHappyData);
   const { handleFormSubmit, questions, question } = props;
 
   return (
-    <div className="">
-      <header className="App-header">
-        <h1>Are you happy at this moment?</h1>
-      </header>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '20px',
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '20px',
+      }}
+    >
+      <h2>{selectHappyD[questionNumber].text}</h2>
+      <FormControl>
+        <FormLabel id="label">Choose the answer</FormLabel>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group"
+        >
+          <FormControlLabel
+            value="1"
+            control={<Radio size="medium" />}
+            label="Yes"
+            onChange={(e) => setSelectOption(e.target.value)}
+            checked={selectOption === '1'}
+          />
+          <FormControlLabel
+            value="0"
+            control={<Radio size="medium" />}
+            label="No"
+            onChange={(e) => setSelectOption(e.target.value)}
+            checked={selectOption === '0'}
+          />
+        </RadioGroup>
+      </FormControl>
+      <Button
+        variant="outlined"
+        onClick={() => {
+          setSelectOption(0);
+          dispatch(changeResult(Number(selectOption)));
         }}
       >
-        {/* <h2>{questions[question].text}</h2> */}
-        <FormControl>
-          <FormLabel id="label">Choose the answer</FormLabel>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
-          >
-            <FormControlLabel
-              value="1"
-              control={<Radio size="medium" />}
-              label="Yes"
-              onChange={(e) => setSelectOption(e.target.value)}
-              checked={selectOption === '1'}
-            />
-            <FormControlLabel
-              value="0"
-              control={<Radio size="medium" />}
-              label="No"
-              onChange={(e) => setSelectOption(e.target.value)}
-              checked={selectOption === '0'}
-            />
-          </RadioGroup>
-        </FormControl>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            setSelectOption(0);
-            // changeResult(selectOption);
-          }}
-        >
-          Next question
-        </Button>
-      </Box>
-      {/* <p>this is{option}</p> */}
-    </div>
+        Next question
+      </Button>
+      <p>this is {optionStore}</p>
+      <p>this is {selectHappyD.map((a) => a.result)}</p>
+    </Box>
   );
 }
 
