@@ -30,6 +30,7 @@ export const happyCounterSlice = createSlice({
     question: -1,
     innerHappiness: 0,
     outerHappiness: 0,
+    myHappiness: 0,
   },
   reducers: {
     refreshQuiz: (state) => {
@@ -42,11 +43,23 @@ export const happyCounterSlice = createSlice({
     changeResult: (state, action) => {
       state.value[state.question].result = action.payload;
       state.question += 1;
+
+      if (state.question === 4) {
+        const innerHOnly =
+          (state.value[1].result +
+            state.value[2].result +
+            state.value[3].result) /
+          3;
+        const outerHOnly = state.value[0].result / 1;
+        state.myHappiness = Math.round(
+          ((state.innerHappiness / 10) * innerHOnly +
+            (state.outerHappiness / 10) * outerHOnly) *
+            100
+        );
+      }
     },
   },
 });
-
-// export const { changeResult } = happyCounterSlice.actions;
 
 export const { changeResult, refreshQuiz, changeInnerOuter } =
   happyCounterSlice.actions;
@@ -57,5 +70,6 @@ export const selectInnerHappiness = (state) =>
   state.happyCounter.innerHappiness;
 export const selectOuterHappiness = (state) =>
   state.happyCounter.outerHappiness;
+export const selectMyHappiness = (state) => state.happyCounter.myHappiness;
 
 export default happyCounterSlice.reducer;
