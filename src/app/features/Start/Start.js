@@ -5,11 +5,12 @@ import { Slider, Box, Button } from '@mui/material';
 import {
   refreshQuiz,
   changeInnerOuter,
+  selectLanguage,
 } from '../happyCounter/happyCounterSlice';
 
 export function Start() {
   const dispatch = useDispatch();
-
+  const language = useSelector(selectLanguage);
   const [innerH, setInnerH] = useState(5);
   const [outerH, setOuterH] = useState(5);
 
@@ -35,7 +36,11 @@ export function Start() {
         gap: '30px',
       }}
     >
-      <h2>How your happiness deppends on?</h2>
+      {language === 'En' ? (
+        <h2>How your happiness deppends on?</h2>
+      ) : (
+        <h2>Від чого залежить ваше щастя?</h2>
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -51,7 +56,7 @@ export function Start() {
             padding: 10,
           }}
         >
-          My inside world
+          {language === 'En' ? 'My inner world' : 'Мій внутрішній світ'}
           <h1
             style={{
               color: 'rgb(25 117 207)',
@@ -59,7 +64,11 @@ export function Start() {
           >
             {innerH}
           </h1>
-          <p>My inner happiness</p>
+          {language === 'En' ? (
+            <p>My inner happiness</p>
+          ) : (
+            <p>Щастя, яке залежить від мене</p>
+          )}
         </div>
         <Slider
           defaultValue={5}
@@ -76,7 +85,7 @@ export function Start() {
             padding: 10,
           }}
         >
-          My clousest
+          {language === 'En' ? 'My outer world' : 'Мій зовнішній світ'}
           <h1
             style={{
               color: 'rgb(166 201 236)',
@@ -84,12 +93,18 @@ export function Start() {
           >
             {outerH}
           </h1>
-          <p>My outer happiness</p>
+          {language === 'En' ? (
+            <p>My inner happiness</p>
+          ) : (
+            <p>Благополуччя мого оточення</p>
+          )}
         </div>
       </Box>
       <Button variant="outlined" onClick={handleSubmit}>
-        Next question
+        {language === 'En' ? 'Next question' : 'Наступне запитання'}
       </Button>
     </Box>
   );
 }
+
+export default Start;

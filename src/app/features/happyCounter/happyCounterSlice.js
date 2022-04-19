@@ -3,22 +3,28 @@ import { createSlice } from '@reduxjs/toolkit';
 const questionsData1 = [
   {
     id: 0,
-    text: 'Are your clousest onces Ok?',
+    textEn: 'Are your clousest onces Ok?',
+    textUa: 'З вашими найблищими все гаразд?',
     result: 0,
   },
   {
     id: 1,
-    text: 'Do you do what you have to do?',
+    textEn: 'Do you do what you have to do?',
+    // textUa: 'Ви робити те що потрібно?',
+    textUa: 'Те, що ви зараз робите, це те що потрібно робити?',
     result: 0,
   },
   {
     id: 2,
-    text: 'Do you do what you can do?',
+    textEn: 'Do you do what you can do?',
+    textUa:
+      'Ви можете робити те, що ви зараз намагаєтеся робити? Ви можете робити те що вам треба/хочете робити?',
     result: 0,
   },
   {
     id: 3,
-    text: 'Do you really do what you whant to do?',
+    textEn: 'Do you really do what you whant to do?',
+    textUa: 'Те, що ви зараз робите, це те що ви дійсно хочите робити?',
     result: 0,
   },
 ];
@@ -31,6 +37,7 @@ export const happyCounterSlice = createSlice({
     innerHappiness: 0,
     outerHappiness: 0,
     myHappiness: 0,
+    language: 'En',
   },
   reducers: {
     refreshQuiz: (state) => {
@@ -58,10 +65,13 @@ export const happyCounterSlice = createSlice({
         );
       }
     },
+    changeLanguage: (state, action) => {
+      state.language = action.payload;
+    },
   },
 });
 
-export const { changeResult, refreshQuiz, changeInnerOuter } =
+export const { changeResult, refreshQuiz, changeInnerOuter, changeLanguage } =
   happyCounterSlice.actions;
 
 export const selectHappyData = (state) => state.happyCounter.value;
@@ -71,5 +81,6 @@ export const selectInnerHappiness = (state) =>
 export const selectOuterHappiness = (state) =>
   state.happyCounter.outerHappiness;
 export const selectMyHappiness = (state) => state.happyCounter.myHappiness;
+export const selectLanguage = (state) => state.happyCounter.language;
 
 export default happyCounterSlice.reducer;

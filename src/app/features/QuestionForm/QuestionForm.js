@@ -13,11 +13,13 @@ import {
   selectHappyData,
   selectedQuestion,
   changeResult,
+  selectLanguage,
 } from '../happyCounter/happyCounterSlice';
 
 export function QuestionForm(props) {
   const happyData = useSelector(selectHappyData);
   const questionNumber = useSelector(selectedQuestion);
+  const language = useSelector(selectLanguage);
   const dispatch = useDispatch();
 
   const [selectOption, setSelectOption] = useState(0);
@@ -32,9 +34,11 @@ export function QuestionForm(props) {
         gap: '20px',
       }}
     >
-      <h2>{happyData[questionNumber].text}</h2>
+      <h2>{happyData[questionNumber][`text${language}`]}</h2>
       <FormControl>
-        <FormLabel id="label">Choose the answer</FormLabel>
+        <FormLabel id="label">
+          {language === 'En' ? 'Choose the answer' : 'Виберіть відповідь'}
+        </FormLabel>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           name="radio-buttons-group"
@@ -42,14 +46,14 @@ export function QuestionForm(props) {
           <FormControlLabel
             value="1"
             control={<Radio size="medium" />}
-            label="Yes"
+            label={language === 'En' ? 'Yes' : 'Так'}
             onChange={(e) => setSelectOption(e.target.value)}
             checked={selectOption === '1'}
           />
           <FormControlLabel
             value="0"
             control={<Radio size="medium" />}
-            label="No"
+            label={language === 'En' ? 'No' : 'Ні'}
             onChange={(e) => setSelectOption(e.target.value)}
             checked={selectOption === '0'}
           />
@@ -62,9 +66,8 @@ export function QuestionForm(props) {
           dispatch(changeResult(Number(selectOption)));
         }}
       >
-        Next question
+        {language === 'En' ? 'Next question' : 'Наступне запитання'}
       </Button>
-      <p>this is {happyData.map((a) => a.result)}</p>
     </Box>
   );
 }
