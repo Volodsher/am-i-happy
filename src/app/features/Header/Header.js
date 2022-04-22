@@ -27,16 +27,16 @@ export function Header() {
         <h1>Ви зараз щасливі?</h1>
       )}
       <ButtonGroup
-        className="languageBotton"
         size="small"
         color="secondary"
         variant="outlined"
         aria-label="outlined button group"
-        sx={{
-          position: 'absolute',
-          right: '20px',
-          // bottom: '5px',
-        }}
+        // sx={{
+        //   position: 'absolute',
+        //   right: '20px',
+        //   // bottom: '5px',
+        // }}
+        className="languageBotton"
       >
         <Button onClick={() => handleLanguageUa()}>Укр</Button>
         <Button onClick={() => handleLanguageEn()}>En</Button>
