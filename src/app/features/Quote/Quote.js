@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export function Quote() {
   const [quote, setQuote] = useState('');
+  const [happy, setHappy] = useState('');
 
   useEffect(() => {
     axios.get('https://type.fit/api/quotes').then((res) => {
@@ -12,6 +13,10 @@ export function Quote() {
       });
       const quoteNumber = Math.floor(Math.random() * quotes.length);
       setQuote(quotes[quoteNumber].text + ' ' + quotes[quoteNumber].author);
+    });
+
+    axios.get('http://amihappy.chaykovska.com.ua/').then((res) => {
+      console.log(res.data);
     });
   }, []);
 

@@ -16,7 +16,7 @@ const questionsData1 = [
   },
   {
     id: 2,
-    textEn: 'Do you do what you can do?',
+    textEn: 'Can you do that you have and what you want?',
     textUa:
       'Ви можете робити те що вам зараз треба робити або те, що ви хочете робити?',
     result: 0,
