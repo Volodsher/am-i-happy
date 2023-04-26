@@ -37,7 +37,7 @@ export function Start() {
       }}
     >
       {language === 'En' ? (
-        <h2>How your happiness deppends on?</h2>
+        <h2>How your happiness depends on?</h2>
       ) : (
         <h2>Від чого залежить ваше щастя?</h2>
       )}

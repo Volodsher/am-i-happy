@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const questionsData1 = [
   {
     id: 0,
-    textEn: 'Are your clousest onces Ok?',
+    textEn: 'Are your closest ones Ok?',
     textUa: 'З вашими найблищими все гаразд?',
     result: 0,
   },

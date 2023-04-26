@@ -14,10 +14,6 @@ export function Quote() {
       const quoteNumber = Math.floor(Math.random() * quotes.length);
       setQuote(quotes[quoteNumber].text + ' ' + quotes[quoteNumber].author);
     });
-
-    axios.get('http://amihappy.chaykovska.com.ua/').then((res) => {
-      console.log(res.data);
-    });
   }, []);
 
   return (
