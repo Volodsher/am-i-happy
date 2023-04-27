@@ -15,12 +15,12 @@ export function Footer() {
         width: '100%',
         height: '50px',
         color: 'white',
-        marginTop: '20px',
+        // marginTop: '20px',
       }}
     >
       {language === 'En'
-        ? 'Copyright © 2022 Volodsher'
-        : '© 2022, Володшер. Усі права захищені.'}
+        ? 'Copyright © 2022-2023 Volodsher'
+        : '© 2022-2023, Володшер. Усі права захищені.'}
     </footer>
   );
 }

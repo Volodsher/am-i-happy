@@ -1,5 +1,3 @@
-// headerTitleEn: 'Are you happy at this moment?',
-// headerTitleUa: 'Ви зараз щасливі?',
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectLanguage,
@@ -20,7 +18,7 @@ export function Header() {
   };
 
   return (
-    <header className="App-header">
+    <header className="app-header">
       {language === 'En' ? (
         <h1>Are you happy at this moment?</h1>
       ) : (

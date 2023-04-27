@@ -19,9 +19,11 @@ export function Quote() {
   return (
     <Box
       sx={{
-        backgroundColor: '#bac1cc',
+        backgroundColor: '#8b939e',
         minРeight: '5vc',
         fontStyle: 'italic',
+        padding: '1rem',
+        color: 'white',
       }}
     >
       "{quote}"

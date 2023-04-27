@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Slider, Box, Button } from '@mui/material';
+import '../../../App.css';
 
 import {
   refreshQuiz,
@@ -28,6 +29,7 @@ export function Start() {
 
   return (
     <Box
+      className="start"
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -47,7 +49,6 @@ export function Start() {
           width: '100%',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '20px',
         }}
       >
         <div

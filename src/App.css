@@ -13,16 +13,21 @@
   }
 }
 
-.App-header {
+.app-header {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
   position: relative;
   background-color: #3e4758;
   min-height: 15vh;
-  display: flex;
-  /* flex-direction: column; */
+  overflow: hidden;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   color: white;
+}
+
+.app-header h1 {
+  grid-column: 2;
 }
 
 .App-link {
@@ -38,15 +43,38 @@
   }
 }
 
+.languageBotton {
+  padding: 0.5rem;
+}
+
 @media (max-width: 860px) {
-  .languageBotton {
-    position: absolute;
-    margin-top: 75px;
-    right: 20px;
+  .App {
+    font-size: 14px;
   }
 }
 
-.languageBotton {
-  position: absolute;
-  right: 20px
+@media (max-width: 475px) {
+  .App {
+    font-size: 13px;
+  }
+
+  .app-header {
+    display: block;
+    min-height: 18vh;
+  }
+
+  .app-header h1 {
+    grid-column: initial;
+  }
+
+  .languageBotton {
+    position: absolute;
+    right: 0.2rem;
+    padding: 0.5rem;
+    top: 3.1rem;
+  }
+
+  .start {
+    font-size: 14px;
+  }
 }
